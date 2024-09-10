@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,41 +12,22 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // API [VETOR] Fake de produtos blz...
-        $products = [
-
-            [
-                'id'            => 1,
-                'name'          => 'Camisa Rock',
-                'valor'         => 33.30,
-                'categoria'     => 'Vestuário',
-                'marca'         => 'Nike',
-                'qtd_estoque'   => 200
-            ],
-
-            [
-                'id'            => 2,
-                'name'          => 'Bermuda',
-                'valor'         => 55.25,
-                'categoria'     => 'Vestuário',
-                'marca'         => 'Hello',
-                'qtd_estoque'   => 100
-            ]
-        ];
-
-        // Array da lista dos produtos
-        $productList = array_column($products, 'name');
-
-        return view('ListaProdutos', compact('products', 'productList'));
+        $products         = Product::orderBy('created_at', 'desc')->get();
+        return view('ListarProdutos')
+                ->with('products', $products);
 
     }
+
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        // Retorna apenas a minha view
+        return view('CadastrarProduto');
+
     }
 
     /**
@@ -53,13 +35,28 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Aqui é que a mágica acontece!!😎😎
+
+        $request->validate([
+            'nome_produto'          => 'required',
+            'marca'                 => 'required',
+            'categoria'             => 'required',
+            'valor_compra'          => 'required|numeric',
+            'valor_venda'           => 'required|numeric',
+            'qtd_estoque'           => 'required|integer',
+        ]);
+        // Conecta com a Model e leva as informações para o Banco de Dados
+        Product::create($request->all());
+        // Por fim, retorna e ou redireciona para a rota (GET) que eu quiser!!
+        return redirect('/products')->with('message', 'Produto Criado com Sucesso👌👌😎');
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $id)
     {
         //
     }
@@ -67,9 +64,11 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $id)
     {
         //
+        $product = Product::find($id);
+        return view('EditProduct')->with('product', $product);
     }
 
     /**
@@ -77,7 +76,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Aqui os dados são inseridos no banco, após serem editados
+        $product = Product::find($id);
     }
 
     /**
@@ -86,5 +86,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        return 'O método destroy funciona!!';
     }
 }
