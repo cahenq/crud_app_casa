@@ -19,13 +19,13 @@
             </table>
         </nav>
     </div>
-    <h1>EDITAR  - PRODUTO:  </h1>
+    <h1>Editar | Produto</h1>
 
-            <form action=" {{ route('products.update', $product) }} " method="POST" enctype="multipart/form-data">
+            <form action=" {{ route('products.update', $product->id) }} " method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <label for="nome_produto">NOME PRODUTO:</label>
-                <input type="text" name="nome_produto" value=" {{ $product->nome_produto }} " id="nome_produto" >
+                <input type="text" name="nome_produto" value=" {{ $product->nome_produto }} " id="nome_produto" required >
 
                 <label for="marca">MARCA:</label>
                 <input type="text" name="marca" value=" {{ $product->marca }} " id="marca" >
@@ -34,16 +34,15 @@
                 <input type="text" name="categoria" value=" {{ $product->categoria }} " id="categoria" >
 
                 <label for="valor_compra">VALOR COMPRA:</label>
-                <input type="text" name="valor_compra" value="{{ $product->valor_compra }}" id="valor_compra" >
+                <input type="text" name="valor_compra" value=" {{ $product->valor_compra }} " id="valor_compra" >
 
                 <label for="valor_venda">VALOR VENDA:</label>
-                <input type="text" name="valor_venda" value=" {{ $product->valor_venda }}  " id="valor_venda" >
+                <input type="text" name="valor_venda" value=" {{ $product->valor_venda }} " id="valor_venda" >
 
                 <label for="qtd_estoque">QTD. ESTOQUE:</label>
-                <input type="text" name="qtd_estoque" value="{{ $product->qtd_estoque }}"  id="qtd_estoque" >
+                <input type="text" name="qtd_estoque" value=" {{ $product->qtd_estoque }} " id="qtd_estoque" >
                 <br><br>
-
-                <input type="submit" name="EDITAR" class="">
+                <input type="submit" value="EDITAR" class="">
             </form>
     <hr>
 

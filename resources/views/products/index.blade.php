@@ -26,8 +26,8 @@
             </table>
         </nav>
     </div>
-    <h1>Página - Listar Produtos</h1>
-    <h2>Lista de Produtos:</h2>
+    <h1>Página - Listar Produtos (INDEX) </h1>
+    <hr>
     {{-- <form action=" {{ url('store') }} " method="POST" enctype="multipart/form-data">
         <input type="text">
         <input type="submit" class="">

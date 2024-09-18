@@ -13,12 +13,10 @@ class ProductController extends Controller
     public function index()
     {
         $products         = Product::orderBy('created_at', 'desc')->get();
-        return view('ListarProdutos')
+        return view('products.index')
                 ->with('products', $products);
 
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -26,7 +24,7 @@ class ProductController extends Controller
     public function create()
     {
         // Retorna apenas a minha view
-        return view('CadastrarProduto');
+        return view('products.create');
 
     }
 
@@ -48,7 +46,7 @@ class ProductController extends Controller
         // Conecta com a Model e leva as informações para o Banco de Dados
         Product::create($request->all());
         // Por fim, retorna e ou redireciona para a rota (GET) que eu quiser!!
-        return redirect('/products')->with('message', 'Produto Criado com Sucesso👌👌😎');
+        return redirect()->route('products.index')->with('message', 'Produto Criado com Sucesso👌👌😎');
 
 
     }
@@ -56,7 +54,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $id)
+    public function show(Request $product)
     {
         //
     }
@@ -64,20 +62,34 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $id)
+    public function edit(string $id)
     {
         //
         $product = Product::find($id);
-        return view('EditProduct')->with('product', $product);
+        return view('products.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         // Aqui os dados são inseridos no banco, após serem editados
         $product = Product::find($id);
+        $request->validate([
+            'nome_produto'          => 'required',
+            'marca'                 => 'required',
+            'categoria'             => 'required',
+            'valor_compra'          => 'required|numeric',
+            'valor_venda'           => 'required|numeric',
+            'qtd_estoque'           => 'required|integer',
+        ]);
+        // Conecta com a Model e leva as informações para o Banco de Dados
+        $product->update($request->all());
+        // Por fim, retorna e ou redireciona para a rota (GET) que eu quiser!!
+        return redirect()->route('products.index')->with('message', 'Produto Editado com Sucesso ✅');
+
+
     }
 
     /**
