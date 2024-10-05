@@ -98,6 +98,8 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
-        return 'O método destroy funciona!!';
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->route('products.index')->with('message','Produto deletado na base de dados! ❌');
     }
 }

@@ -9,7 +9,6 @@ Route::get('/', function () {
 });
 
 
-
 ###################### AQUI ESTÃO AS ROTAS DOS MEU CONTROLADOR PRODUTO ##############
 Route::delete('/destroy/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
