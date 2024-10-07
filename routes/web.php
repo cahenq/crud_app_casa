@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/test-layout', function () 
+{
+    return view('test-layout');
+});
 
 ###################### AQUI ESTÃO AS ROTAS DOS MEU CONTROLADOR PRODUTO ##############
 Route::delete('/destroy/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
